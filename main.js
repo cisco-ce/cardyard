@@ -129,8 +129,12 @@ const model = {
     this.error = false;
     try {
       const json = JSON.parse(this.currentJson);
-      const { version, schema, body, type } = json;
-      if (!type) {
+      const { version, type } = json;
+      if (this.currentJson.length > maxSize) {
+        this.error = `Card size is too large. Max: ${maxSize} characters.`;
+        return false;
+      }
+      else if (!type) {
         this.error = 'Adaptive card is missing "type" attribute.';
         return false;
       }
@@ -152,6 +156,7 @@ const model = {
       return true;
     }
     catch(e) {
+      this.error = 'Card data is not valid JSON.';
       return false;
     }
   },
