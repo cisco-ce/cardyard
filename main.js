@@ -115,6 +115,18 @@ const model = {
     return this.currentJson?.length || 0;
   },
 
+  setRecipient(recipient) {
+    // pasting Space Details straight from webex client:
+    const roomIdPattern = /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/;
+    const match = recipient.match(roomIdPattern);
+    if (match) {
+      this.recipient = match[0];
+    }
+    else {
+      this.recipient = recipient;
+    }
+  },
+
   async send() {
     this.error = false;
     this.sending = true;

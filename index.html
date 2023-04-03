@@ -47,7 +47,11 @@
     <div x-text="'✅ ' + botName" x-show="botName"></div>
 
     <label>Recipient (email or room id):</label>
-    <input placeholder="Recipient email" x-model="recipient"/>
+    <input
+      placeholder="Recipient email"
+      :value="recipient"
+      @input="setRecipient($event.target.value)"
+    />
     <div>
       <button
         :disabled="!canSend || sending"
