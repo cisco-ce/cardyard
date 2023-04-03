@@ -19,6 +19,7 @@ const model = {
   botName: '',
 
   init() {
+    this.setupKeys();
     this.restoreValues();
     if (this.botToken) {
       this.checkToken();
@@ -32,6 +33,24 @@ const model = {
   async loadSample() {
     const json = await (await fetch('./sample.json')).text();
     this.setJson(json);
+  },
+
+  setupKeys() {
+    window.onkeyup = (e) => {
+      if ((e.key === 'Enter' || e.key === 'Return') && e.ctrlKey) {
+        this.pasteAndSend();
+      }
+    }
+  },
+
+  async pasteAndSend() {
+    await this.paste();
+    if (this.validJson) {
+      this.send();
+    }
+    else {
+      alert('Pasted card, but didn\'t send since it is not valid.');
+    }
   },
 
   setJson(json) {
