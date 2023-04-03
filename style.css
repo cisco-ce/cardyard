@@ -56,6 +56,7 @@ input, textarea {
   border: 1px solid #bbb;
   border-radius: 5px;
   padding: 0.5em;
+  resize: none;
 }
 
 .form input {
@@ -79,6 +80,7 @@ button:hover {
   width: 50vw;
   height: 50vh;
   font-size: 0.8em;
+  resize: both;
 }
 
 .error, .invalid {
