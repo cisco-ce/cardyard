@@ -6,6 +6,7 @@ const jsonHint = `Copy and paste your card JSON here.
 }
 `;
 const maxSize = 22740; // that's the entire message including text, markdown and attachment
+const versions = ['1.0', '1.1', '1.2', '1.3'];
 
 const model = {
 
@@ -22,6 +23,15 @@ const model = {
     if (this.botToken) {
       this.checkToken();
     }
+    const params = new URLSearchParams(location.search);
+    if (params.has('sample')) {
+      this.loadSample();
+    }
+  },
+
+  async loadSample() {
+    const json = await (await fetch('./sample.json')).text();
+    this.setJson(json);
   },
 
   setJson(json) {
@@ -32,12 +42,9 @@ const model = {
     try {
       const formatted = JSON.stringify(JSON.parse(this.currentJson), null, 2);
       this.currentJson = formatted;
-      console.log('reformatted json');
     }
     catch(e) {
-      this.currentJson = json;
     }
-
   },
 
   async checkToken() {
@@ -108,8 +115,22 @@ const model = {
   },
 
   get validJson() {
+    this.error = false;
     try {
-      JSON.parse(this.currentJson);
+      const json = JSON.parse(this.currentJson);
+      const { version, schema, body, type } = json;
+      if (!type) {
+        this.error = 'Adaptive card is missing "type" attribute.';
+        return false;
+      }
+      else if (!version) {
+        this.error = 'Adaptive card is missing "version" attribute.';
+        return false;
+      }
+      else if (!versions.some(v => v === version)) {
+        this.error = 'Adaptve card version not supported. Allowed: ' + versions.join(', ');
+        return false;
+      }
       return true;
     }
     catch(e) {

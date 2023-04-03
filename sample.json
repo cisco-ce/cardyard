@@ -1,0 +1,17 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "Greetings from the Card Yard"
+    },
+    {
+      "type": "TextBlock",
+      "text": "This card was sent from the Card Yard.",
+      "wrap": true
+    }
+  ],
+  "version": "1.3"
+}
