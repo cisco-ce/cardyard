@@ -38,17 +38,16 @@
   <section class="form">
     <div>Test your adaptive card designs by sending them on Webex using a bot.
     </div>
-    <div>
-      <input
-        placeholder="Bot token"
-        x-model="botToken"
-        @change="checkToken()"
-      />
-      <div x-text="'✅ ' + botName" x-show="botName"></div>
-    </div>
-    <div>
-      <input placeholder="Recipient email" x-model="recipient"/>
-    </div>
+    <label>Access token (bot or <a href="https://developer.webex.com/docs/getting-started">your own</a>):</label>
+    <input
+      placeholder="Bot token"
+      x-model="botToken"
+      @change="checkToken()"
+    />
+    <div x-text="'✅ ' + botName" x-show="botName"></div>
+
+    <label>Recipient (email or room id):</label>
+    <input placeholder="Recipient email" x-model="recipient"/>
     <div>
       <button
         :disabled="!canSend || sending"
