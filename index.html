@@ -38,6 +38,15 @@
   <section class="form">
     <div>Test your adaptive card designs by sending them on Webex using a bot.
     </div>
+    <select @change="setToken($event.target.value)" x-show="recentTokens?.length > 1">
+      <template x-for="entry in recentTokens">
+        <option
+          x-text="tokenName(entry)"
+          :value="entry.token"
+          :selected="entry.token === botToken"
+        ></option>
+      </template>
+    </select>
     <label>Access token (bot or <a href="https://developer.webex.com/docs/getting-started" target="_blank">your own</a>):</label>
     <textarea
       placeholder="Bot token"

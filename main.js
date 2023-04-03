@@ -17,6 +17,7 @@ const model = {
   error: '',
   success: false,
   botName: '',
+  recentTokens: [],
 
   init() {
     this.setupKeys();
@@ -87,16 +88,42 @@ const model = {
     }
   },
 
+  tokenName(entry) {
+    const start = entry.token.slice(0, 6);
+    const end = entry.token.slice(-6)
+    return `${entry.name} (${start}...${end})`;
+  },
+
+  setToken(token) {
+    this.botToken = token;
+    this.checkToken();
+  },
+
   restoreValues() {
-    this.botToken = localStorage.getItem('lastToken');
-    this.currentJson = localStorage.getItem('lastJson');
-    this.recipient = localStorage.getItem('lastRecipient');
+    const data = localStorage.getItem('card-yard');
+    if (!data) return;
+    try {
+      const { tokens, json, recipient } = JSON.parse(data);
+      this.recentTokens = tokens;
+      this.botToken = tokens.at(-1).token;
+      this.currentJson = json;
+      this.recipient = recipient;
+    }
+    catch(e) {
+      console.log('not able to parse data', e);
+    }
   },
 
   rememberData() {
-    localStorage.setItem('lastToken', this.botToken);
-    localStorage.setItem('lastJson', this.currentJson);
-    localStorage.setItem('lastRecipient', this.recipient);
+    const token = this.botToken;
+    const tokens = this.recentTokens.filter(t => t.token !== token);
+    tokens.push({ token, name: this.botName });
+    const data = {
+      tokens,
+      json: this.currentJson,
+      recipient: this.recipient,
+    };
+    localStorage.setItem('card-yard', JSON.stringify(data, null, 2));
   },
 
   async paste() {
@@ -131,7 +158,6 @@ const model = {
     this.error = false;
     this.sending = true;
     this.success = false;
-    this.rememberData();
 
     try {
       const text = 'Testing card from The Card Yard.'
@@ -146,6 +172,7 @@ const model = {
         this.error = res.status + ': ' + json.message;
       }
       else {
+        this.rememberData();
         alert('Card sent succesfully to ' + to);
       }
     }
