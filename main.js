@@ -139,8 +139,15 @@ const model = {
         return false;
       }
       else if (!versions.some(v => v === version)) {
-        this.error = 'Adaptve card version not supported. Allowed: ' + versions.join(', ');
+        this.error = 'Adaptive card version not supported. Allowed: ' + versions.join(', ');
         return false;
+      }
+      else {
+        const invalid = findInvalidNodes(json);
+        if (invalid) {
+          this.error = `A node of type ${invalid.type} is missing an 'id' attribute.`;
+          return false;
+        }
       }
       return true;
     }
