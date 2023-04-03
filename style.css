@@ -1,0 +1,91 @@
+:root {
+  --main-accent: black;
+  --header-height: 4em;
+  --error: #cc1010;
+  --blue: #1170cf;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: arial;
+  background-color: #f7f7f7;
+}
+
+main {
+  padding: 2em;
+  display: flex;
+  gap: 2em;
+}
+
+a {
+  color: var(--blue);
+}
+
+section {
+  border-radius: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+button {
+  padding: 0.5em;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border-radius: 5em;
+  padding: 0.5em 1em;
+}
+
+input, textarea {
+  background-color: #ccc;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+.form input {
+  width: 30em;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #eee;
+}
+
+.card-json {
+  width: 50vw;
+  height: 50vh;
+  font-size: 0.8em;
+}
+
+.error, .invalid {
+  background-color: #e7c9d3;
+}
+
+.error {
+  padding: 1em;
+}
+
+.size {
+  font-size: 0.8em;
+  color: #666;
+}

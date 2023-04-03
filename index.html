@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Card Yard</title>
+  <link rel="stylesheet" href="./style.css"></link>
+  <script src="./webex.js" defer></script>
+  <script src="./main.js" defer></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body
+  x-cloak
+  x-data="model"
+>
+
+<main>
+  <section>
+    <textarea
+      class="card-json"
+      :placeholder="jsonHint"
+      :value="currentJson"
+      @input="setJson($event.target.value)"
+      @change="reformat()"
+      :class="validJson ? '' : 'invalid'"
+    ></textarea>
+    <div class="size">
+      Size: <span x-text="messageSize"></span> / <span x-text="maxSize"></span>
+    </div>
+  </section>
+
+  <section class="form">
+    <div>Test your adaptive card designs by sending them on Webex using a bot.
+    </div>
+    <div>
+      <input
+        placeholder="Bot token"
+        x-model="botToken"
+        @change="checkToken()"
+      />
+      <div x-text="'✅ ' + botName" x-show="botName"></div>
+    </div>
+    <div>
+      <input placeholder="Recipient email" x-model="recipient"/>
+    </div>
+    <div>
+      <button
+        :disabled="!canSend || sending"
+        @click="send()"
+        x-text="sending ? 'Sending...' : 'Send card'"
+      ></button>
+    </div>
+    <div x-text="error" x-show="error" class="error">
+    </div>
+    <hr/>
+    <div>
+      <p/>Links:
+      <p/>
+      <a href="https://developer.webex.com/docs/api/guides/cards" target="_blank">Intro to buttons and cards</a>
+      <p/>
+      <a href="https://developer.webex.com/buttons-and-cards-designer" target="_blank">Card designer</a>
+   </div>
+
+  </section>
+</main>
+
+</body>
+
+</html>
