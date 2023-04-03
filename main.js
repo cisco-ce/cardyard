@@ -80,6 +80,17 @@ const model = {
     localStorage.setItem('lastRecipient', this.recipient);
   },
 
+  async paste() {
+    try {
+      const json = await navigator.clipboard.readText();
+      this.setJson(json);
+      this.reformat();
+    }
+    catch(e) {
+      console.log('not able to paste from clipboard', e);
+    }
+  },
+
   get messageSize() {
     // TODO count the rest of the metadata too
     return this.currentJson?.length || 0;

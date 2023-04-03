@@ -1,8 +1,7 @@
 # TODO
 
-* Provide a sample json
-* Remember last bot token
-* Validate card (version number, input field ids, card size, ...)
-* Copy / paste buttons
+* Validate card
+  * Input fields must have ids
 * Drag JSON from file
 * Allow sending to space too
+* Provide couple of pre-made samples
