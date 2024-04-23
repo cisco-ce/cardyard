@@ -129,6 +129,10 @@ button:hover {
   color: #f16363;
 }
 
+.success {
+  color: #528152;
+}
+
 .error {
   padding: 1em;
 }

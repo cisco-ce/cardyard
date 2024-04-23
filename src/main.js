@@ -74,11 +74,13 @@ const model = {
   },
 
   async checkToken() {
+    this.botName = '';
+    this.botAvatar = '';
+    this.recipientName = '';
+    this.recipientAvatar = null;
     this.error = false;
     const token = this.botToken.trim();
     try {
-      this.botName = '';
-      this.botAvatar = '';
       const res = await whoAmI(token);
       if (!res.ok) {
         this.error = 'Token does not seem to be valid.';
@@ -171,8 +173,8 @@ const model = {
 
   async send() {
     this.error = false;
-    this.sending = true;
     this.success = false;
+    this.sending = true;
 
     try {
       const text = 'Testing card from The Card Yard.'
@@ -180,20 +182,21 @@ const model = {
       const to = this.recipient;
       const json = JSON.parse(this.currentJson);
       const res = await sendWebexCard(token, to, text, json);
-      this.success = res.ok;
       if (!res.ok) {
         const json = await res.json();
-        console.log(res, json);
+        this.success = false;
         this.error = res.status + ': ' + json.message;
       }
       else {
+        this.success = 'Card sent';
+        this.error = false;
         this.rememberData();
-        alert('Card sent succesfully to ' + to);
       }
     }
     catch(e) {
       console.log(e);
       this.error = e.reason;
+      this.success = false;
     }
     this.sending = false;
   },

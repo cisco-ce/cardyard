@@ -90,7 +90,7 @@
         x-text="sending ? 'Sending...' : 'Send card'"
       ></button>
     </div>
-    <div x-text="error" x-show="error" class="error"></div>
+    <div x-text="error || success" x-show="error || success" :class="error ? 'error' : 'success'"></div>
 
   </section>
 </main>
