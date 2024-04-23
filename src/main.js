@@ -17,6 +17,7 @@ const model = {
   error: '',
   success: false,
   botName: '',
+  botAvatar: '',
   recentTokens: [],
 
   init() {
@@ -71,6 +72,8 @@ const model = {
     this.error = false;
     const token = this.botToken.trim();
     try {
+      this.botName = '';
+      this.botAvatar = '';
       const res = await whoAmI(token);
       if (!res.ok) {
         this.error = 'Token does not seem to be valid.';
@@ -79,6 +82,7 @@ const model = {
       else {
         const json = await res.json();
         this.botName = json.displayName;
+        this.botAvatar = json.avatar?.replace('~1600', '~640');
       }
     }
     catch(e) {

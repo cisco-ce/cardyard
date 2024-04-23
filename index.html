@@ -61,7 +61,10 @@
       @change="checkToken()"
       rows="3"
     ></textarea>
-    <div x-text="'✅ ' + botName" x-show="botName"></div>
+    <div x-show="botName" class="row">
+      <span class="avatar" x-show="botAvatar" :style="{ 'background-image': `url(${botAvatar})`}"></span>
+      <div x-text="botName"></div>
+    </div>
 
     <label>Recipient (email or room id):</label>
     <textarea

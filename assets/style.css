@@ -134,6 +134,12 @@ button:hover {
   color: #666;
 }
 
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
 button.primary {
   background-color: #528152;
   color: white;
@@ -147,4 +153,14 @@ button.primary:hover {
 
 button:disabled {
   cursor: default;
+}
+
+.avatar {
+  display: inline-block;
+  height: 30px;
+  aspect-ratio: 1 / 1;
+  background-size: contain;
+  background-position: center;
+  border-radius: 50%;
+  background-color: #222;
 }
