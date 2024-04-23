@@ -32,7 +32,7 @@ const model = {
   },
 
   async loadSample() {
-    const json = await (await fetch('./sample.json')).text();
+    const json = await (await fetch('./src/sample.json')).text();
     this.setJson(json);
   },
 
