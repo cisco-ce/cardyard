@@ -12,12 +12,14 @@ const model = {
 
   currentJson: '',
   botToken: '',
+  botName: '',
+  botAvatar: '',
   recipient: '',
+  recipientName: '',
+  recipientAvatar: '',
   sending: false,
   error: '',
   success: false,
-  botName: '',
-  botAvatar: '',
   recentTokens: [],
 
   init() {
@@ -25,6 +27,9 @@ const model = {
     this.restoreValues();
     if (this.botToken) {
       this.checkToken();
+    }
+    if (this.recipient) {
+      this.checkRecipient();
     }
     const params = new URLSearchParams(location.search);
     if (params.has('sample')) {
@@ -90,6 +95,12 @@ const model = {
       console.log(e);
       this.botName = '';
     }
+  },
+
+  async checkRecipient() {
+    const rec = await getRecipient(this.botToken, this.recipient);
+    this.recipientName = rec?.displayName || rec?.title || '⚠️ Recipient not found';
+    this.recipientAvatar = rec?.avatar?.replace('~1600', '~640');
   },
 
   tokenName(entry) {

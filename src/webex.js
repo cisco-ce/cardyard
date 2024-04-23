@@ -11,6 +11,25 @@ function whoAmI(token) {
   return webex(apiUrl + 'people/me', token);
 }
 
+async function getRecipient(token, emailOrRoomId) {
+  const url = emailOrRoomId.includes('@')
+    ?  apiUrl + 'people?email=' + emailOrRoomId
+    : apiUrl + 'rooms/' + toProperId(emailOrRoomId);
+
+  const res = await webex(url, token);
+
+  if (res.ok) {
+    const obj = await res.json();
+    return obj?.items?.[0] || obj;
+  }
+  return false;
+}
+
+function toProperId(id) {
+  // id as you get it from webex client. assume US location
+  return (id.length === 36) ? btoa('ciscospark://us/ROOM/' + id) : id;
+}
+
 function sendWebexCard(token, to, text, card) {
   const url = apiUrl + 'messages';
   const body = {
@@ -29,12 +48,7 @@ function sendWebexCard(token, to, text, card) {
   else {
     // typically Y2lzY29zcGFyazovL3VzL1JPT00vM2ZlMDgwMTAtZDIxZi0xMWVkLTgyY2MtMGQ2YzgwYTYxMTA1
     // => ciscospark://us/ROOM/3fe08010-d21f-11ed-82cc-0d6c80a61105
-    let roomId = to;
-
-    // id as you get it from webex client. assume US location
-    if (to.length === 36) {
-      roomId = btoa('ciscospark://us/ROOM/' + to);
-    }
+    const roomId = toProperId(to);
     body.roomId = roomId;
   }
 

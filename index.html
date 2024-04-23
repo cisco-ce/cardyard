@@ -71,8 +71,17 @@
       placeholder="Recipient email"
       :value="recipient"
       @input="setRecipient($event.target.value)"
+      @change="checkRecipient()"
       rows="3"
     ></textarea>
+    <div class="row">
+      <span
+        class="avatar"
+        x-show="recipientAvatar"
+        :style="{ 'background-image': `url(${recipientAvatar})`}"
+      ></span>
+      <div x-text="recipientName"></div>
+    </div>
     <div style="text-align: center">
       <button
         :disabled="!canSend || sending"

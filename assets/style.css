@@ -90,6 +90,10 @@ input, textarea, select {
   color: white;
 }
 
+input:focus, textarea:focus, select:focus, button:focus {
+  outline: 1px solid white;
+}
+
 .form input {
   width: 30em;
 }
