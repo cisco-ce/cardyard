@@ -13,8 +13,7 @@ const model = {
   currentJson: '',
   botToken: '',
   recipient: '',
-  recipientName: '',
-  recipientAvatar: '',
+  receiver: null,
   sending: false,
   error: '',
   success: false,
@@ -75,8 +74,7 @@ const model = {
   async checkToken() {
     console.log('checking token...')
     this.sender = null;
-    this.recipientName = '';
-    this.recipientAvatar = null;
+    this.receiver = null;
     this.error = false;
     const token = this.botToken.trim();
     try {
@@ -97,9 +95,20 @@ const model = {
   },
 
   async checkRecipient() {
-    const rec = await getRecipient(this.botToken, this.recipient);
-    this.recipientName = rec?.displayName || rec?.title || '⚠️ Recipient not found';
-    this.recipientAvatar = rec?.avatar?.replace('~1600', '~640');
+    try {
+      const rec = await getRecipient(this.botToken, this.recipient);
+      if (rec) {
+        this.receiver = rec;
+      }
+      else {
+        this.error = 'Recipient not found.';
+      }
+
+    }
+    catch(e) {
+      this.error = 'Not currently able to search for recipient.';
+      console.log(e);
+    }
   },
 
   tokenName(entry) {

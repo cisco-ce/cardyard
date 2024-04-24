@@ -73,18 +73,22 @@
     <textarea
       placeholder="Recipient email"
       :value="recipient"
+      x-show="!receiver"
       @input="setRecipient($event.target.value)"
       @change="checkRecipient()"
+      @blur="checkRecipient()"
       rows="3"
     ></textarea>
-    <div class="row">
+    <div class="row field" x-show="receiver">
       <span
         class="avatar"
-        x-show="recipientAvatar"
-        :style="{ 'background-image': `url(${recipientAvatar})`}"
+        x-show="receiver?.avatar"
+        :style="{ 'background-image': `url(${receiver?.avatar})`}"
       ></span>
-      <div x-text="recipientName"></div>
+      <div x-text="receiver?.name"></div>
+      <button @click="receiver = null">Edit</button>
     </div>
+    <div x-text="error || success" x-show="error || success" :class="error ? 'error' : 'success'"></div>
     <div style="text-align: center">
       <button
         :disabled="!canSend || sending"
@@ -93,7 +97,6 @@
         x-text="sending ? 'Sending...' : 'Send card'"
       ></button>
     </div>
-    <div x-text="error || success" x-show="error || success" :class="error ? 'error' : 'success'"></div>
 
   </section>
 </main>

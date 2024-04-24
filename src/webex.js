@@ -12,17 +12,50 @@ function whoAmI(token) {
 }
 
 async function getRecipient(token, emailOrRoomId) {
-  const url = emailOrRoomId.includes('@')
-    ?  apiUrl + 'people?email=' + emailOrRoomId
-    : apiUrl + 'rooms/' + toProperId(emailOrRoomId);
-
-  const res = await webex(url, token);
-
-  if (res.ok) {
-    const obj = await res.json();
-    return obj?.items?.[0] || obj;
+  const isEmail = emailOrRoomId.includes('@');
+  if (isEmail) {
+    const url = apiUrl + 'people?email=' + emailOrRoomId;
+    try {
+      const res = await webex(url, token);
+      if (res.ok) {
+        const list = await res.json();
+        if (list.items.length) {
+          return {
+            name: list.items[0].displayName,
+            avatar: list.items[0].avatar?.replace('~1600', '~640'),
+          }
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+    catch(e) {
+      console.log(e);
+      return false
+    }
   }
-  return false;
+  else {
+    const url = apiUrl + 'rooms/' + toProperId(emailOrRoomId);
+    try {
+      const res = await webex(url, token);
+      if (res.ok) {
+        const obj = await res.json();
+        return {
+          name: obj.title,
+        };
+      }
+      else return false;
+    }
+    catch(e) {
+      console.log(e);
+      return false;
+    }
+  }
+
 }
 
 function toProperId(id) {
