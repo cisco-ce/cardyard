@@ -98,6 +98,10 @@ input:focus, textarea:focus, select:focus, button:focus {
   width: 30em;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 .tip {
   color: #ccc;
   font-size: 0.9em;

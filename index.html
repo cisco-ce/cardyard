@@ -65,7 +65,7 @@
     ></textarea>
     <div x-show="sender" class="row field">
       <span class="avatar" x-show="sender" :style="{ 'background-image': `url(${sender?.avatar})`}"></span>
-      <div x-text="sender?.displayName"></div>
+      <div x-text="sender?.displayName" class="grow"></div>
       <button @click="sender = null">Edit</button>
     </div>
 
@@ -85,7 +85,7 @@
         x-show="receiver?.avatar"
         :style="{ 'background-image': `url(${receiver?.avatar})`}"
       ></span>
-      <div x-text="receiver?.name"></div>
+      <div x-text="receiver?.name" class="grow"></div>
       <button @click="receiver = null">Edit</button>
     </div>
     <div x-text="error || success" x-show="error || success" :class="error ? 'error' : 'success'"></div>
