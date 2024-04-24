@@ -12,8 +12,6 @@ const model = {
 
   currentJson: '',
   botToken: '',
-  botName: '',
-  botAvatar: '',
   recipient: '',
   recipientName: '',
   recipientAvatar: '',
@@ -21,6 +19,7 @@ const model = {
   error: '',
   success: false,
   recentTokens: [],
+  sender: null,
 
   init() {
     this.setupKeys();
@@ -74,8 +73,8 @@ const model = {
   },
 
   async checkToken() {
-    this.botName = '';
-    this.botAvatar = '';
+    console.log('checking token...')
+    this.sender = null;
     this.recipientName = '';
     this.recipientAvatar = null;
     this.error = false;
@@ -84,18 +83,16 @@ const model = {
       const res = await whoAmI(token);
       if (!res.ok) {
         this.error = 'Token does not seem to be valid.';
-        this.botName = '';
       }
       else {
         const json = await res.json();
-        this.botName = json.displayName;
-        this.botAvatar = json.avatar?.replace('~1600', '~640');
+        json.avatar = json.avatar?.replace('~1600', '~640');
+        this.sender = json;
       }
     }
     catch(e) {
       this.error = 'Not able to verify token at the moment.';
       console.log(e);
-      this.botName = '';
     }
   },
 
@@ -134,7 +131,7 @@ const model = {
   rememberData() {
     const token = this.botToken;
     const tokens = this.recentTokens.filter(t => t.token !== token);
-    tokens.push({ token, name: this.botName });
+    tokens.push({ token, name: this.sender?.displayName });
     const data = {
       tokens,
       json: this.currentJson,

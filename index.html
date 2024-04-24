@@ -58,12 +58,15 @@
     <textarea
       placeholder="Bot token"
       x-model="botToken"
+      x-show="!sender"
       @change="checkToken()"
+      @blur="checkToken()"
       rows="3"
     ></textarea>
-    <div x-show="botName" class="row">
-      <span class="avatar" x-show="botAvatar" :style="{ 'background-image': `url(${botAvatar})`}"></span>
-      <div x-text="botName"></div>
+    <div x-show="sender" class="row field">
+      <span class="avatar" x-show="sender" :style="{ 'background-image': `url(${sender?.avatar})`}"></span>
+      <div x-text="sender?.displayName"></div>
+      <button @click="sender = null">Edit</button>
     </div>
 
     <label>Recipient (email or room id):</label>
