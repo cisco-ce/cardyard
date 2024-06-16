@@ -231,13 +231,16 @@ const model = {
       else {
         const invalid = findInvalidNodes(json);
         if (invalid) {
-          this.error = `A node of type ${invalid.type} is missing an 'id' attribute.`;
+          this.error = invalid.id
+            ? `The id '${invalid.id}' is used for multiple nodes, not legal.`
+            : `A node of type ${invalid.type} is missing an 'id' attribute.`;
           return false;
         }
       }
       return true;
     }
     catch(e) {
+      console.error(e);
       this.error = 'Card data is not valid JSON.';
       return false;
     }
