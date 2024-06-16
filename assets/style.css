@@ -127,6 +127,7 @@ button:hover {
   height: 50vh;
   font-size: 0.8em;
   resize: both;
+  white-space: nowrap;
 }
 
 .error, .invalid {
